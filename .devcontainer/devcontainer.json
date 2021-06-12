@@ -1,0 +1,68 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.177.0/containers/typescript-node
+{
+  "name": "app",
+  "build": {
+    "dockerfile": "Dockerfile",
+    // Update 'VARIANT' to pick a Node version: 12, 14, 16
+    "args": {
+      "VARIANT": "14"
+    }
+  },
+
+  // Set *default* container specific settings.json values on container create.
+  "settings": {
+    "terminal.integrated.profiles.linux": {
+      "zsh (login)": {
+        "path": "zsh",
+        "args": ["-l"]
+      }
+    },
+    "workbench.colorTheme": "One Dark Pro",
+    "terminal.integrated.fontFamily": "Roboto Mono for Powerline"
+  },
+
+  // Cypress X11
+  // @see https://github.com/microsoft/vscode-remote-release/issues/550
+  // @see https://github.com/microsoft/vscode-remote-release/issues/5043
+  "runArgs": [
+    "--net",
+    "host",
+    "-e",
+    "DISPLAY=${env:DISPLAY}",
+    "-v",
+    "/tmp/.X11-unix:/tmp/.X11-unix"
+  ],
+
+  "mounts": [
+    "source=try-node-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+  ],
+
+  // Add the IDs of extensions you want installed when the container is created.
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "coenraads.bracket-pair-colorizer",
+    "mikestead.dotenv",
+    "dsznajder.es7-react-js-snippets",
+    "jpoissonnier.vscode-styled-components",
+    "qcz.text-power-tools",
+    "dakara.transformer",
+    "aaron-bond.better-comments",
+    "zhuangtongfa.material-theme",
+    "ms-azuretools.vscode-docker"
+  ],
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [3000],
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "sudo chown danilucaci node_modules",
+
+  "containerEnv": {
+    "BROWSER": "none"
+  }
+
+  // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+  // "remoteUser": "node"
+}
