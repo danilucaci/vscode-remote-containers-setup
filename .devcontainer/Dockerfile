@@ -78,3 +78,5 @@ ENV UPDATE_ZSH_DAYS 20
 
 COPY .zshrc $HOME
 COPY z.sh $HOME
+
+RUN npx cypress install
