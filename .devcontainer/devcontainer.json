@@ -25,17 +25,19 @@
   // Cypress X11
   // @see https://github.com/microsoft/vscode-remote-release/issues/550
   // @see https://github.com/microsoft/vscode-remote-release/issues/5043
-  "runArgs": [
-    "--net",
-    "host",
-    "-e",
-    "DISPLAY=${env:DISPLAY}",
-    "-v",
-    "/tmp/.X11-unix:/tmp/.X11-unix"
-  ],
+  "runArgs": ["--net", "host", "-v", "/tmp/.X11-unix:/tmp/.X11-unix"],
+
+  "containerEnv": {
+    "LIBGL_ALWAYS_INDIRECT": "0",
+    "BROWSER": "none",
+    "CYPRESS_VIDEO": "false",
+    "DISPLAY": "192.168.0.34:0",
+    "XAUTHORITY": "/home/danilucaci/.Xauthority"
+  },
 
   "mounts": [
-    "source=try-node-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+    "source=try-node-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
+    "source=${localEnv:HOME}/.Xauthority,target=/home/danilucaci/.Xauthority,type=bind,consistency=cached"
   ],
 
   // Add the IDs of extensions you want installed when the container is created.
@@ -57,11 +59,7 @@
   "forwardPorts": [3000],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "sudo chown danilucaci node_modules",
-
-  "containerEnv": {
-    "BROWSER": "none"
-  }
+  "postCreateCommand": "sudo chown danilucaci node_modules"
 
   // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
   // "remoteUser": "node"
